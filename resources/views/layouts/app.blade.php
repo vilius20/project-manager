@@ -22,12 +22,13 @@
             </li>
         </ul>
     </nav>
+    {{-- Main content --}}
     <div class="flex justify-center">
-        <div class="w-8/12 bg-white p-6 rounded-lg">
+        <div class="md:w-10/12 w-11/12 bg-white p-6 rounded-lg">
             @yield('projects')
-            @yield('students')
         </div>
     </div>
+    {{-- Main content end --}}
 
 </body>
 
