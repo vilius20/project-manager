@@ -83,8 +83,8 @@ class ProjectController extends Controller
 
 
         $title = $request->title;
-        $info = Project::where('title', $title)->first()->only(['id']);
-        $project_id = data_get($info, 'id');
+        $project_info = Project::where('title', $title)->first()->only(['id']);
+        $project_id = data_get($project_info, 'id');
         $count = $request->groups;
 
         for ($i=0; $i < $count; $i++) { 
