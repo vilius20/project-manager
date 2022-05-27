@@ -2,7 +2,7 @@
 
 @section('projects')
 <div class="flex justify-center">
-    <div class="w-6/12 bg-white p-6 rounded-lg">
+    <div class="md:w-6/12 w-full bg-white p-6 rounded-lg">
         <form action="{{ route('newProject') }}" method="post">
             @csrf
             <div class="mb-4">

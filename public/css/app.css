@@ -435,6 +435,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   white-space: nowrap;
   border-width: 0;
 }
+.m-5 {
+  margin: 1.25rem;
+}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -468,20 +471,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hidden {
   display: none;
 }
-.w-6\/12 {
-  width: 50%;
-}
 .w-full {
   width: 100%;
-}
-.w-8\/12 {
-  width: 66.666667%;
-}
-.w-10\/12 {
-  width: 83.333333%;
-}
-.w-11\/12 {
-  width: 91.666667%;
 }
 .table-auto {
   table-layout: auto;
@@ -596,8 +587,12 @@ Ensure the default browser behavior of the `hidden` attribute.
     display: grid;
   }
 
-  .md\:w-10\/12 {
-    width: 83.333333%;
+  .md\:w-6\/12 {
+    width: 50%;
+  }
+
+  .md\:w-11\/12 {
+    width: 91.666667%;
   }
 
   .md\:grid-cols-3 {

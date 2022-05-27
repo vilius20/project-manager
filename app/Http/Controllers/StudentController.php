@@ -27,12 +27,10 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        // Validates students name
         $this->validate($request, [
             'student' => 'required|unique:students,student|max:255|regex:/^[\pL\s\-]+$/u'
         ]);
 
-        // If validation passes -> put stodent in database
         Student::create([
             'student' => $request->student
         ]);
@@ -52,35 +50,27 @@ class StudentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @param  int  $grouop_id
      * @return \Illuminate\Http\Response
      */
     public function update($id, $group_id)
     {
-        // Finds student
-        $studentGroup = Student::find($id);
-        // Counts how many students are in one group
-        $group_count = $studentGroup->where('group', $group_id)->count();
-        // Gets project id
+        $student_group = Student::find($id);
+        $group_count = $student_group->where('group', $group_id)->count();
         $get_project_id = Group::where('id', $group_id)->first();
-        // Gets number of how much students can be in one group
         $get_allowed_students = Project::where('id', $get_project_id->project_id)->first();
         $allowed_students = $get_allowed_students->students;
 
-        // If there is less students than allowed it updates students group id
         if ($group_count < $allowed_students) {
-            $studentGroup->update([
+            $student_group->update([
                 'group' => $group_id
             ]);
             return redirect('/');
         } 
-        // Else it throws error
         else {
-            return redirect()->back()->with('message', 'Group already full...');
-            
+            return redirect()->back()->with('message', 'Group already full...');  
         }
 
         
@@ -96,7 +86,6 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        // Deleting student by it's id
         Student::destroy($id);
         return redirect('/');
     }

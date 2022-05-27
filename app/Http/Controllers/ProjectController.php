@@ -45,19 +45,14 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        // Gets all projects
         $projects = Project::get();
 
-        // Gets all Groups
         $groups = Group::get();
 
-        // Gets all Students
         $students = Student::get();
 
-        // Number of students in groups
         $groupNumber = Student::all()->groupBy('group');
 
-        // Returns projects to page
         return view('projects.projects', [
             'projects' => $projects,
             'groups' => $groups,
@@ -74,25 +69,20 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // Validates projects info
         $this->validate($request, [
-            'title' => 'required|max:255',
-            // Max 30 groups per project
-            'groups' => 'required|numeric|max:30',
-            // Min 2 students per group
-            'students' => 'required|numeric|min:2'
+            'title' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
+            'groups' => 'required|numeric|max:30|min:2|gt:0',
+            'students' => 'required|numeric|min:2|max:100|gt:0'
         ]);
 
-        // If validation passes put info in database
         Project::create([
             'title' => $request->title,
             'groups' => $request->groups,
             'students' => $request->students
         ]);
 
-        // Creates project groups
+
         $title = $request->title;
-        // Getting project id
         $info = Project::where('title', $title)->first()->only(['id']);
         $project_id = data_get($info, 'id');
         $count = $request->groups;
@@ -138,7 +128,6 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        // Deleting project by id
         Project::destroy($id);
         return redirect('/');
     }
