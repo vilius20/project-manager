@@ -1,13 +1,19 @@
 <?php
 
 use App\Http\Controllers\Api\ApiProjectController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/projects', [ApiProjectController::class, 'index']);
-Route::post('/projects', [ApiProjectController::class, 'store']);
-Route::post('/projects/search/{title}', [ApiProjectController::class, 'search']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/projects', [ApiProjectController::class, 'index']);
+    Route::get('/projects/{id}', [ApiProjectController::class, 'show']);
+    Route::post('/projects', [ApiProjectController::class, 'store']);
+    Route::delete('/projects/{id}', [ApiProjectController::class, 'destroy']);
+    Route::get('/projects/search/{title}', [ApiProjectController::class, 'search']);
+    Route::post('/logout', [UserController::class, 'logout']);
 });
