@@ -51,7 +51,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken('koliviotoken')->plainTextToken;
+        $token = $user->createToken('managertoken')->plainTextToken;
 
         $response = [
             'user' => $user,

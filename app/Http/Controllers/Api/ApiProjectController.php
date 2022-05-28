@@ -36,6 +36,7 @@ class ApiProjectController extends Controller
 
         Project::create([
             'title' => $request->title,
+            'user_id' => $request->user_id,
             'groups' => $request->groups,
             'students' => $request->students
         ]);
