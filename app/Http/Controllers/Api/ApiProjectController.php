@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Project;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,8 @@ class ApiProjectController extends Controller
 
         $projects = Project::where('user_id', $user_id)->get();
         $groups = Group::where('user_id', $user_id)->get();
-        return ['PROJECTS' => $projects, 'GROUPS' => $groups];
+        $students = Student::where('user_id', $user_id)->get();
+        return ['PROJECTS' => $projects, 'GROUPS' => $groups, 'STUDENTS' => $students];
     }
 
     /**

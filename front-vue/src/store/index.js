@@ -7,6 +7,10 @@ const store = createStore({
             data: {},
             token: sessionStorage.getItem("TOKEN"),
         },
+        students: {
+            save: [],
+            data: [],
+        },
         projects: {
             data: [],
             save: [],
@@ -17,6 +21,14 @@ const store = createStore({
     },
     getters: {},
     actions: {
+        saveStudent({ commit }, student) {
+            let response;
+            response = axiosClient.post("/students", student).then((res) => {
+                commit("saveStudent", res.data);
+                return res;
+            });
+            return response;
+        },
         getProjects({ commit }) {
             return axiosClient.get("/projects").then((res) => {
                 commit("setProjects", res.data);
@@ -72,6 +84,10 @@ const store = createStore({
         setProjects: (state, projects) => {
             state.projects.data = projects.PROJECTS;
             state.groups.data = projects.GROUPS;
+            state.students.data = projects.STUDENTS;
+        },
+        saveStudent: (state, student) => {
+            state.students.save = student;
         },
         saveProject: (state, project) => {
             state.projects.save = project;

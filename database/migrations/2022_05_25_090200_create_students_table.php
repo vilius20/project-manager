@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\User::class ,'user_id')->nullable();
             $table->string('student');
             $table->integer('group')->nullable();
             $table->timestamps();

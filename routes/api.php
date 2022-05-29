@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiProjectController;
+use App\Http\Controllers\Api\ApiStudentController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,4 +17,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/projects/{id}', [ApiProjectController::class, 'destroy']);
     Route::get('/projects/search/{title}', [ApiProjectController::class, 'search']);
     Route::post('/logout', [UserController::class, 'logout']);
+
+    Route::post('/students', [ApiStudentController::class, 'store']);
 });

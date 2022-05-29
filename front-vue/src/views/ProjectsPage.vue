@@ -91,9 +91,47 @@
                             </div>
                         </form>
                         <h1 class="text-3xl">Groups</h1>
-                        <div class="" v-for="group in groups" :key="group.id">
-                            <div v-if="group.project_id == project.id">
-                                <h1>{{ group.title }} {{ group.id }}</h1>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div v-for="group in groups" :key="group.id">
+                                <div v-if="group.project_id == project.id">
+                                    <div class="">
+                                        <h1 class="text-2xl m-2">
+                                            {{ group.title }} {{ group.id }}
+                                        </h1>
+                                        <div
+                                            v-for="student in students"
+                                            :key="student.id"
+                                        >
+                                            <div
+                                                v-if="group.id == student.group"
+                                            >
+                                                <h1>{{ student.student }}</h1>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <form @change="studentGroup">
+                                                <select
+                                                    name="studentGroup"
+                                                    id="studentGroup"
+                                                    class="studentGroup"
+                                                    v-model="model.test"
+                                                >
+                                                    <option
+                                                        v-for="student in students"
+                                                        :key="student.id"
+                                                        id="test"
+                                                        :value="
+                                                            (group.id,
+                                                            student.id)
+                                                        "
+                                                    >
+                                                        {{ student.student }}
+                                                    </option>
+                                                </select>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,19 +152,28 @@ const router = useRouter();
 
 const projects = computed(() => store.state.projects.data);
 const groups = computed(() => store.state.groups.data);
+const students = computed(() => store.state.students.data);
 
 let model = ref({
     student: null,
+    test: null,
 });
 
 store.dispatch("getProjects");
 
 function saveStudent() {
     store.dispatch("saveStudent", model.value).then(() => {
-        router.push({
-            name: "Projects",
-        });
+        router.go();
     });
+}
+
+function studentGroup() {
+    let id = document.getElementById("studentGroup");
+    console.log(id.options[id.selectedIndex].text);
+    console.log(id.value);
+    // store.dispatch("saveStudent", model.value).then(() => {
+    //     router.go();
+    // });
 }
 
 // function deleteProject(project) {
