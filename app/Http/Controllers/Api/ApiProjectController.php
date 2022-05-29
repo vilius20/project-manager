@@ -6,17 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Project::all();
+        $user_id = $request->user()->id;
+        // return Project::where('user_id', $user_id)->get();
+
+        $projects = Project::where('user_id', $user_id)->get();
+        $groups = Group::where('user_id', $user_id)->get();
+        return ['PROJECTS' => $projects, 'GROUPS' => $groups];
     }
 
     /**
@@ -28,15 +34,17 @@ class ApiProjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|max:11|numeric',
+            'user_id' => 'exists:users,id',
             'title' => 'required|max:255|regex:/^[\pL\s\-]+$/u',
             'groups' => 'required|numeric|max:30|min:2|gt:0',
             'students' => 'required|numeric|min:2|max:100|gt:0'
         ]);
 
-        Project::create([
+        $user = $request->user();
+
+       $result = Project::create([
             'title' => $request->title,
-            'user_id' => $request->user_id,
+            'user_id' => $user->id,
             'groups' => $request->groups,
             'students' => $request->students
         ]);
@@ -49,20 +57,31 @@ class ApiProjectController extends Controller
 
         for ($i=0; $i < $count; $i++) { 
             Group::create([
+                'user_id' => $user->id,
                 'project_id' => $project_id,
                 'title' => 'Group #',
             ]);
         }
+
+        return $result;
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  \App\Models\Project  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request, Project $project)
     {
+        $user = $request->user();
+
+        
+        if ($user->id !== $project->user_id) {
+            return abort(403, message: 'Unauthorized action.');
+        }
+
         return Project::find($id);
     }
 
@@ -93,10 +112,17 @@ class ApiProjectController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @param  \App\Models\Project  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request, Project $project)
     {
-       return Project::destroy($id);
+        $user = $request->user();
+        
+        if ($user->id !== $project->user_id) {
+            return abort(403, message: 'Unauthorized action.');
+        }
+        
+        return Project::destroy($id);
     }
 }

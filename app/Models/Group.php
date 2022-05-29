@@ -9,6 +9,7 @@ class Group extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'title',
         'project_id'    
     ];
