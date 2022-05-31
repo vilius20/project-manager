@@ -30,7 +30,6 @@
 
         <main>
             <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                <!-- Replace with your content -->
                 <div class="grid">
                     <div
                         v-for="project in projects"
@@ -44,7 +43,7 @@
                             <button
                                 v-if="project.id"
                                 type="button"
-                                @click="deleteProject(project)"
+                                @click="deleteProject(project.id)"
                                 class="h-8 w-8 flex items-center justify-center rounded-full border border-transparent text-sm text-red-500 focus:ring-2 fcus:ring-offset-2 focus:ring-red-500"
                             >
                                 <svg
@@ -62,15 +61,68 @@
                                 </svg>
                             </button>
                         </div>
-                        <h1 class="mt-4 text-lg font-bold">
-                            Groups:
-                            <p>{{ project.groups }}</p>
-                        </h1>
-                        <h1 class="mt-4 text-lg font-bold">
-                            Students:
-                            <p>{{ project.students }}</p>
-                        </h1>
-                        <h1 class="text-3xl">Students</h1>
+                        <div
+                            class="text-lg font-bold mt-4 flex gap-2 items-center"
+                        >
+                            <h1>Groups:</h1>
+                            <p class="text-red-500">{{ project.groups }}</p>
+                        </div>
+
+                        <div
+                            class="text-lg font-bold mt-4 flex gap-2 items-center mb-3"
+                        >
+                            <h1>Students:</h1>
+                            <p class="text-red-500">{{ project.id }}</p>
+                        </div>
+
+                        <h1 class="text-3xl mb-3">Students</h1>
+                        <div class="border-x-2 border-t-2 rounded bg-slate-100">
+                            <div
+                                class="flex justify-around border-b-2 p-2 pb-3 pt-3"
+                            >
+                                <h1 class="w-1/4 flex justify-center font-bold">
+                                    Students
+                                </h1>
+                                <h1
+                                    class="w-1/4 flex justify-center font-bold mr-2"
+                                >
+                                    Groups
+                                </h1>
+                                <h1 class="w-1/4 flex justify-center font-bold">
+                                    Actions
+                                </h1>
+                            </div>
+                            <div v-for="student in students" :key="student.id">
+                                <div class="flex justify-around border-b-2 p-2">
+                                    <div class="w-1/4 flex justify-center">
+                                        <p class="text-indigo-600 font-medium">
+                                            {{ student.student }}
+                                        </p>
+                                    </div>
+
+                                    <div class="w-1/4 flex justify-center">
+                                        <div v-if="student.group !== null">
+                                            <p class="font-bold">
+                                                Group# {{ student.group }}
+                                            </p>
+                                        </div>
+                                        <div class="font-bold" v-else>
+                                            No group assigned!
+                                        </div>
+                                    </div>
+
+                                    <div class="w-1/4 flex justify-center">
+                                        <button
+                                            @click="deleteStudent(student.id)"
+                                            class="text-red-500 font-bold"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <form @submit.prevent="saveStudent">
                             <div
                                 class="flex gap-2 rounded mt-4 mb-4 items-center"
@@ -91,10 +143,12 @@
                             </div>
                         </form>
                         <h1 class="text-3xl">Groups</h1>
-                        <div class="grid grid-cols-4 gap-4">
+                        <div class="grid grid-cols-3 gap-4">
                             <div v-for="group in groups" :key="group.id">
                                 <div v-if="group.project_id == project.id">
-                                    <div class="">
+                                    <div
+                                        class="bg-slate-100 p-4 flex flex-col items-center rounded border-2"
+                                    >
                                         <h1 class="text-2xl m-2">
                                             {{ group.title }} {{ group.id }}
                                         </h1>
@@ -105,29 +159,50 @@
                                             <div
                                                 v-if="group.id == student.group"
                                             >
-                                                <h1>{{ student.student }}</h1>
+                                                <h1
+                                                    class="m-2 text-indigo-600 font-medium"
+                                                >
+                                                    {{ student.student }}
+                                                </h1>
                                             </div>
                                         </div>
                                         <div>
-                                            <form @change="studentGroup">
-                                                <select
-                                                    name="studentGroup"
-                                                    id="studentGroup"
-                                                    class="studentGroup"
-                                                    v-model="model.test"
+                                            <form
+                                                class="flex flex-col items-center"
+                                                @submit.prevent="studentGroup"
+                                            >
+                                                <div>
+                                                    <ul>
+                                                        <li
+                                                            class="flex items-center justify-between m-2"
+                                                            v-for="student in studentsNoGroup"
+                                                            :key="student.id"
+                                                        >
+                                                            <label
+                                                                for="student"
+                                                                class="text-red-500 font-bold pr-2"
+                                                                >{{
+                                                                    student.student
+                                                                }}</label
+                                                            >
+                                                            <input
+                                                                type="checkbox"
+                                                                id="studentGroupValues"
+                                                                class="studentGroupValues"
+                                                                :value="
+                                                                    group.id +
+                                                                    ' ' +
+                                                                    student.id
+                                                                "
+                                                            />
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <button
+                                                    class="inline-flex justify-center mt-2 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                 >
-                                                    <option
-                                                        v-for="student in students"
-                                                        :key="student.id"
-                                                        id="test"
-                                                        :value="
-                                                            (group.id,
-                                                            student.id)
-                                                        "
-                                                    >
-                                                        {{ student.student }}
-                                                    </option>
-                                                </select>
+                                                    Add student
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -136,7 +211,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /End replace -->
             </div>
         </main>
     </div>
@@ -147,16 +221,24 @@ import store from "../store";
 import { computed } from "vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import axiosClient from "../axios";
 
 const router = useRouter();
 
-const projects = computed(() => store.state.projects.data);
+let projects = computed(() => store.state.projects.data);
 const groups = computed(() => store.state.groups.data);
 const students = computed(() => store.state.students.data);
+const studentsNoGroup = computed(() => store.state.students.noGroup);
+// const userToken = computed(() => store.state.user.token);
+// const userData = computed(() => store.state.user.data);
+
+// console.log(userToken.value);
+// console.log(userData.value.id);
+// console.log(groups.value);
 
 let model = ref({
     student: null,
-    test: null,
+    groupIdstudentId: null,
 });
 
 store.dispatch("getProjects");
@@ -168,17 +250,57 @@ function saveStudent() {
 }
 
 function studentGroup() {
-    let id = document.getElementById("studentGroup");
-    console.log(id.options[id.selectedIndex].text);
-    console.log(id.value);
-    // store.dispatch("saveStudent", model.value).then(() => {
-    //     router.go();
-    // });
+    let values = document.querySelectorAll(".studentGroupValues");
+
+    let arr = [];
+    values.forEach((value) => {
+        if (value.checked === true) {
+            arr.push(value.value);
+        }
+    });
+    let response;
+    response = axiosClient.put("/students", arr).then((res) => {
+        router.go();
+        return res;
+    });
+    return response;
 }
 
-// function deleteProject(project) {
-//   if (confirm('Are you sure you want to delete this project?')) {
-//     //
-//   }
+// function getProjects() {
+//     axiosClient.get("/projects").then(() => {
+//         console.log("Send");
+//     });
 // }
+
+// setInterval(function () {
+//     axiosClient.get("/projects").then((res) => {
+//         console.log("Send");
+
+//         projects.value = res.data.PROJECTS;
+//         console.log(projects.value);
+//     });
+// }, 10000);
+
+function deleteProject(projectId) {
+    if (confirm("Are you sure you want to delete this project?")) {
+        let response;
+        response = axiosClient.delete(`/projects/${projectId}`).then((res) => {
+            router.go();
+            return res;
+        });
+        return response;
+    }
+}
+
+function deleteStudent(studentId) {
+    console.log(studentId);
+    let response;
+    response = axiosClient.delete(`/students/${studentId}`).then((res) => {
+        router.go();
+        return res;
+    });
+    return response;
+}
 </script>
+
+<style></style>

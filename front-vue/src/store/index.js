@@ -4,12 +4,14 @@ import axiosClient from "../axios";
 const store = createStore({
     state: {
         user: {
-            data: {},
+            data: [],
             token: sessionStorage.getItem("TOKEN"),
         },
         students: {
             save: [],
             data: [],
+            update: [],
+            noGroup: [],
         },
         projects: {
             data: [],
@@ -21,6 +23,21 @@ const store = createStore({
     },
     getters: {},
     actions: {
+        deleteProject(project) {
+            let response;
+            response = axiosClient.delete(`/projects`, project).then((res) => {
+                return res;
+            });
+            return response;
+        },
+        updateStudent({ commit }, student) {
+            let response;
+            response = axiosClient.put("/students", student).then((res) => {
+                commit("updateStudent", res.data);
+                return res;
+            });
+            return response;
+        },
         saveStudent({ commit }, student) {
             let response;
             response = axiosClient.post("/students", student).then((res) => {
@@ -30,10 +47,15 @@ const store = createStore({
             return response;
         },
         getProjects({ commit }) {
-            return axiosClient.get("/projects").then((res) => {
+            axiosClient.get("/projects").then((res) => {
                 commit("setProjects", res.data);
-                return res;
             });
+            setInterval(function () {
+                axiosClient.get("/projects").then((res) => {
+                    console.log("Information updated...");
+                    commit("setProjects", res.data);
+                });
+            }, 10000);
         },
         saveProject({ commit }, project) {
             let response;
@@ -75,6 +97,7 @@ const store = createStore({
         },
         logout({ commit }) {
             return axiosClient.post("/logout").then((response) => {
+                sessionStorage.removeItem("TOKEN");
                 commit("logout");
                 return response;
             });
@@ -85,6 +108,10 @@ const store = createStore({
             state.projects.data = projects.PROJECTS;
             state.groups.data = projects.GROUPS;
             state.students.data = projects.STUDENTS;
+            state.students.noGroup = projects.STUDENTS_NO_GROUP;
+        },
+        updateStudent: (state, student) => {
+            state.students.update = student;
         },
         saveStudent: (state, student) => {
             state.students.save = student;

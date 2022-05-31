@@ -1,13 +1,13 @@
-import axios from 'axios';
-import store from './store';
+import axios from "axios";
+import store from "./store";
 
 const axiosClient = axios.create({
-  baseURL: 'https://dotask.eu/api',
+    baseURL: `${process.env.VUE_APP_API_URL}`,
 });
 
 axiosClient.interceptors.request.use((config) => {
-  config.headers['Authorization'] = `Bearer ${store.state.user.token}`;
-  return config;
+    config.headers["Authorization"] = `Bearer ${store.state.user.token}`;
+    return config;
 });
 
 export default axiosClient;
