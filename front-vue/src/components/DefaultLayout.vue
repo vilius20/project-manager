@@ -173,11 +173,19 @@ export default {
         const router = useRouter();
 
         function logout() {
-            store.dispatch("logout").then(() => {
-                router.push({
-                    name: "Login",
+            store
+                .dispatch("logout")
+                .then(() => {
+                    router.push({
+                        name: "Login",
+                    });
+                })
+                .catch((err) => {
+                    if (err.response.data.message == "Unauthenticated.") {
+                        sessionStorage.removeItem("TOKEN");
+                        router.go();
+                    }
                 });
-            });
         }
         return {
             user: computed(() => store.state.user.data),

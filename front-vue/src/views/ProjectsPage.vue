@@ -272,6 +272,11 @@ function saveStudent() {
         })
         .catch((err) => {
             errorMsg.value = err.response.data.message;
+            if (err.response.data.message == "Unauthenticated.") {
+                sessionStorage.removeItem("TOKEN");
+                localStorage.setItem("msg", err.response.data.message);
+                router.go();
+            }
         });
 }
 
@@ -293,6 +298,11 @@ function studentGroup() {
         })
         .catch((err) => {
             errorMsg.value = err.response.data.message;
+            if (err.response.data.message == "Unauthenticated.") {
+                sessionStorage.removeItem("TOKEN");
+                localStorage.setItem("msg", err.response.data.message);
+                router.go();
+            }
         });
     return response;
 }
@@ -300,10 +310,20 @@ function studentGroup() {
 function deleteProject(projectId) {
     if (confirm("Are you sure you want to delete this project?")) {
         let response;
-        response = axiosClient.delete(`/projects/${projectId}`).then((res) => {
-            router.go();
-            return res;
-        });
+        response = axiosClient
+            .delete(`/projects/${projectId}`)
+            .then((res) => {
+                router.go();
+                return res;
+            })
+            .catch((err) => {
+                errorMsg.value = err.response.data.message;
+                if (err.response.data.message == "Unauthenticated.") {
+                    sessionStorage.removeItem("TOKEN");
+                    localStorage.setItem("msg", err.response.data.message);
+                    router.go();
+                }
+            });
         return response;
     }
 }
@@ -311,10 +331,20 @@ function deleteProject(projectId) {
 function deleteStudent(studentId) {
     console.log(studentId);
     let response;
-    response = axiosClient.delete(`/students/${studentId}`).then((res) => {
-        router.go();
-        return res;
-    });
+    response = axiosClient
+        .delete(`/students/${studentId}`)
+        .then((res) => {
+            router.go();
+            return res;
+        })
+        .catch((err) => {
+            errorMsg.value = err.response.data.message;
+            if (err.response.data.message == "Unauthenticated.") {
+                sessionStorage.removeItem("TOKEN");
+                localStorage.setItem("msg", err.response.data.message);
+                router.go();
+            }
+        });
     return response;
 }
 </script>

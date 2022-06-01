@@ -6,7 +6,7 @@
             alt="Workflow"
         />
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Register your account
+            Register teacher account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
             Or

@@ -119,6 +119,11 @@ function saveProject() {
         })
         .catch((err) => {
             errorMsg.value = err.response.data.message;
+            if (err.response.data.message == "Unauthenticated.") {
+                sessionStorage.removeItem("TOKEN");
+                localStorage.setItem("msg", err.response.data.message);
+                router.go();
+            }
         });
 }
 </script>

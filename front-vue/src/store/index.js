@@ -6,6 +6,7 @@ const store = createStore({
         user: {
             data: [],
             token: sessionStorage.getItem("TOKEN"),
+            // token: 123,
         },
         students: {
             save: [],
@@ -74,9 +75,9 @@ const store = createStore({
                 },
                 method: "GET",
             }).then(() => {
-                return axiosClient.post("/register", user).then((data) => {
-                    commit("setUser", data);
-                    return data;
+                return axiosClient.post("/register", user).then((res) => {
+                    commit("setUser", res.data);
+                    return res;
                 });
             });
         },

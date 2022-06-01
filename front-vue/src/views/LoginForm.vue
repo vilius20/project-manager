@@ -6,7 +6,7 @@
             alt="Workflow"
         />
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Sign in to teacher account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
             Or
@@ -75,33 +75,6 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    v-model="user.remember"
-                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                    for="remember-me"
-                    class="ml-2 block text-sm text-gray-900"
-                >
-                    Remember me
-                </label>
-            </div>
-
-            <div class="text-sm">
-                <a
-                    href="#"
-                    class="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                    Forgot your password?
-                </a>
-            </div>
-        </div>
-
         <div>
             <button
                 type="submit"
@@ -134,6 +107,17 @@ const user = {
 };
 
 let errorMsg = ref("");
+
+function test() {
+    if (localStorage.getItem("msg")) {
+        errorMsg.value = localStorage.getItem("msg");
+        setTimeout(() => {
+            localStorage.removeItem("msg");
+        }, "1000");
+    }
+}
+
+window.onload = test();
 
 function login(e) {
     e.preventDefault();
