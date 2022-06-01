@@ -45,19 +45,19 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::get();
+        $projects = Project::where('user_id', null)->get();
 
-        $groups = Group::get();
+        $groups = Group::where('user_id', null)->get();
 
-        $students = Student::get();
+        $students = Student::where('user_id', null)->get();
 
-        $groupNumber = Student::all()->groupBy('group');
+        $groupNumber = Student::where('user_id', null)->groupBy('group');
 
         return view('projects.projects', [
             'projects' => $projects,
             'groups' => $groups,
             'students' => $students,
-            'groupNumber' => $groupNumber
+            'groupNumber' => $groupNumber,
         ]);    
     }
 

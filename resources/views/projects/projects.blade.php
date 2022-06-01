@@ -6,7 +6,7 @@
     @if ($projects->count())
         @foreach ($projects as $project)
 
-                @if ($project->user_id == null)
+                
                     
                
                 {{-- ENDEX --}}
@@ -156,14 +156,15 @@
 
                 {{-- ENDEX --}}
                
-                @else
-                <p class="text-3xl">Register project...</p>
-                <p class="mt-5">Top right corner...</p>
-                @endif
+               
                 
 {{--------------------------------------------------------------------------------}}
 
             @endforeach
+            @else
+            <p class="text-3xl">Register project...</p>
+            <p class="mt-5">Top right corner...</p>
+            
     @endif  
 <script src="{{ asset('js/groups.js') }}"></script>
 @endsection

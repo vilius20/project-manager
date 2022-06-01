@@ -19,4 +19,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     Route::post('/students', [ApiStudentController::class, 'store']);
+    Route::put('/students', [ApiStudentController::class, 'update']);
+    Route::delete('/students/{id}', [ApiStudentController::class, 'destroy']);
+
 });
+
+Route::delete('/students/{id}', [ApiStudentController::class, 'remove_test'])->name('students.destroy');

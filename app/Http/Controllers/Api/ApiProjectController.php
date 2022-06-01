@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class ApiProjectController extends Controller
 {
@@ -19,12 +20,12 @@ class ApiProjectController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        // return Project::where('user_id', $user_id)->get();
 
         $projects = Project::where('user_id', $user_id)->get();
         $groups = Group::where('user_id', $user_id)->get();
         $students = Student::where('user_id', $user_id)->get();
-        return ['PROJECTS' => $projects, 'GROUPS' => $groups, 'STUDENTS' => $students];
+        $students_no_group = Student::where('group', null)->where('user_id', $user_id)->get();
+        return ['PROJECTS' => $projects, 'GROUPS' => $groups, 'STUDENTS' => $students, 'STUDENTS_NO_GROUP' => $students_no_group];
     }
 
     /**
@@ -51,16 +52,12 @@ class ApiProjectController extends Controller
             'students' => $request->students
         ]);
 
-
-        $title = $request->title;
-        $project_info = Project::where('title', $title)->first()->only(['id']);
-        $project_id = data_get($project_info, 'id');
         $count = $request->groups;
 
         for ($i=0; $i < $count; $i++) { 
             Group::create([
                 'user_id' => $user->id,
-                'project_id' => $project_id,
+                'project_id' => $result->id,
                 'title' => 'Group #',
             ]);
         }
@@ -115,13 +112,19 @@ class ApiProjectController extends Controller
      *
      * @param  int  $id
      * @param  \App\Models\Project  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Request $request, Project $project)
+    public function destroy($id, Request $request)
     {
-        $user = $request->user();
-        
-        if ($user->id !== $project->user_id) {
+        $access_token = $request->header('Authorization');
+        $auth_header = explode(' ', $access_token);
+        $token_from_user = $auth_header[1];
+        $token = PersonalAccessToken::findToken($token_from_user);
+        $user = $token->tokenable;
+        $project= Project::where('id', $id)->first();
+
+        if ($user->id !== (int)$project->user_id) {
             return abort(403, message: 'Unauthorized action.');
         }
         
