@@ -45,8 +45,6 @@ class UserController extends Controller
         // Check password
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                $user->password,
-                $fields['password'],
                 'message' => 'Neteisingi prisijungimo duomenys'
             ], 401);
         }
