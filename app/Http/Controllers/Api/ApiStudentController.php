@@ -83,7 +83,7 @@ class ApiStudentController extends Controller
                 ]);
             } 
             else {
-                return abort(403, message: 'Group already full...');  
+                return abort(403, message: 'Group '.$group_id.' already full...(Or trying to add to much students...');  
             }
 
         }

@@ -142,6 +142,31 @@
                                 </button>
                             </div>
                         </form>
+                        <div
+                            v-if="errorMsg"
+                            class="flex items-center justify-between m-4 py-2 px-4 bg-red-500 text-white rounded"
+                        >
+                            {{ errorMsg }}
+                            <span
+                                class="cursor-pointer flex items-center transition-colors rounded-full hover:bg-[rgba(0,0,0,0.2)]"
+                                @click="errorMsg = ''"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-8 w-8"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
                         <h1 class="text-3xl">Groups</h1>
                         <div class="grid grid-cols-3 gap-4">
                             <div v-for="group in groups" :key="group.id">
@@ -229,24 +254,25 @@ let projects = computed(() => store.state.projects.data);
 const groups = computed(() => store.state.groups.data);
 const students = computed(() => store.state.students.data);
 const studentsNoGroup = computed(() => store.state.students.noGroup);
-// const userToken = computed(() => store.state.user.token);
-// const userData = computed(() => store.state.user.data);
-
-// console.log(userToken.value);
-// console.log(userData.value.id);
-// console.log(groups.value);
 
 let model = ref({
     student: null,
     groupIdstudentId: null,
 });
 
+let errorMsg = ref("");
+
 store.dispatch("getProjects");
 
 function saveStudent() {
-    store.dispatch("saveStudent", model.value).then(() => {
-        router.go();
-    });
+    store
+        .dispatch("saveStudent", model.value)
+        .then(() => {
+            router.go();
+        })
+        .catch((err) => {
+            errorMsg.value = err.response.data.message;
+        });
 }
 
 function studentGroup() {
@@ -259,27 +285,17 @@ function studentGroup() {
         }
     });
     let response;
-    response = axiosClient.put("/students", arr).then((res) => {
-        router.go();
-        return res;
-    });
+    response = axiosClient
+        .put("/students", arr)
+        .then((res) => {
+            router.go();
+            return res;
+        })
+        .catch((err) => {
+            errorMsg.value = err.response.data.message;
+        });
     return response;
 }
-
-// function getProjects() {
-//     axiosClient.get("/projects").then(() => {
-//         console.log("Send");
-//     });
-// }
-
-// setInterval(function () {
-//     axiosClient.get("/projects").then((res) => {
-//         console.log("Send");
-
-//         projects.value = res.data.PROJECTS;
-//         console.log(projects.value);
-//     });
-// }, 10000);
 
 function deleteProject(projectId) {
     if (confirm("Are you sure you want to delete this project?")) {

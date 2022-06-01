@@ -7,6 +7,31 @@
     <form @submit.prevent="saveProject">
         <div class="shadow sm:rounded-md sm:overflow-hidden">
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                <div
+                    v-if="errorMsg"
+                    class="flex items-center justify-between py-2 px-4 bg-red-500 text-white rounded"
+                >
+                    {{ errorMsg }}
+                    <span
+                        class="cursor-pointer flex items-center transition-colors rounded-full hover:bg-[rgba(0,0,0,0.2)]"
+                        @click="errorMsg = ''"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-8 w-8"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                    </span>
+                </div>
                 <div>
                     <label
                         class="block text-sm font-medium text-gray-700"
@@ -82,12 +107,19 @@ let model = ref({
     students: null,
 });
 
+let errorMsg = ref("");
+
 function saveProject() {
-    store.dispatch("saveProject", model.value).then(() => {
-        router.push({
-            name: "Projects",
+    store
+        .dispatch("saveProject", model.value)
+        .then(() => {
+            router.push({
+                name: "Projects",
+            });
+        })
+        .catch((err) => {
+            errorMsg.value = err.response.data.message;
         });
-    });
 }
 </script>
 

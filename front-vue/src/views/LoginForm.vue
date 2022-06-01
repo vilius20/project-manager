@@ -146,7 +146,7 @@ function login(e) {
             });
         })
         .catch((err) => {
-            errorMsg.value = err.response;
+            errorMsg.value = err.response.data.message;
         });
 }
 </script>
