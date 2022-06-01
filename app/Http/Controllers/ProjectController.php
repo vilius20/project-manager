@@ -21,23 +21,7 @@ class ProjectController extends Controller
         // Returns page where you can create project
         return view('create.create');
     }
-
-    // /**
-    //  * Form for creating new project.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function students()
-    // {
-    //     // Gets all Students
-    //     $students = Student::get();
-        
-    //     return view('students.students', [
-    //         'students' => $students
-    //     ]);
-    // }
-
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -95,29 +79,6 @@ class ProjectController extends Controller
         }
 
         return redirect('/');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
