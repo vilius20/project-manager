@@ -23,7 +23,7 @@ Using Node 16.13.1 and Laravel 9.14.0
 -   Maximum 30 groups per project
 -   Maximum 100 students per project
 -   Validations for inputs
--   Updating projects page every 10 seconds
+-   Updating projects page every 10 seconds (fron-vue/src/store/index.js uncomment line 54 and 59)
 -   Custom command for creating database (make sure to have working connection in .env file): php artisan mysql:createdb dbnamehere
 -   Database migrations ready to be migrated after creating database: php artisan migrate
 -   For front-end: Vue.js
