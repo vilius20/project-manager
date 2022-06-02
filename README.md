@@ -163,3 +163,14 @@ Using Node 16.13.1 and Laravel 9.14.0
 -   Now create .env file and copy everything from .env.example to .env file
 -   Edit API url
 -   After that run: npm run serve
+
+### Docker
+
+-   Change .env database connections to: DB_HOST=db DB_DATABASE=projects_school DB_USERNAME=projects_school DB_PASSWORD=secret
+-   Run commands:
+-   docker-compose up -d --build
+-   docker-compose exec app bash
+-   composer install
+-   php artisan key:generate
+-   php artisan migrate
+-   Everything should be working under localhost:8005
