@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\Student;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class StudentController extends Controller
 {
@@ -15,7 +17,7 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'student' => 'required|unique:students,student|max:255|regex:/^[\pL\s\-]+$/u'
@@ -34,7 +36,7 @@ class StudentController extends Controller
      * @param  int  $grouop_id
      * @return \Illuminate\Http\Response
      */
-    public function update($id, $group_id)
+    public function update(int $id, int $group_id): RedirectResponse
     {
         $student_group = Student::find($id);
         $group_count = $student_group->where('group', $group_id)->count();
@@ -61,9 +63,9 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         Student::destroy($id);
-        return redirect('/');
+        return redirect('/')->setStatusCode(201);
     }
 }

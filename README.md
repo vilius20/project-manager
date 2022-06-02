@@ -1,64 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
 ## School Project Manager
 
 This school project manager (SPM) can:
 
 -   Create project.
--   auto-initalize groups.
+-   auto-initalize groups (using event in API).
 -   add students to groups.
--   Visit live (only laravel-blade and public link:www.dotask.eu)[demo](https://dotask.eu).
--   Also API and front-end solution (link:www.plexas.lt) [demo](https://plexas.lt).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   Visit live only laravel-blade and public (link: https://www.dotask.eu) [demo](https://dotask.eu).
+-   Also API and front-end solution (link: https://www.plexas.lt) [demo](https://plexas.lt).
+-   Bonus requirements fulfilled.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Using Node 16.13.1 and Laravel 9.14.0
 
-## Learning Laravel
+## Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   For design used TailwindCSS
+-   Responsive design
+-   For design used TailwindCSS
+-   Maximum 30 groups per project
+-   Maximum 100 students per project
+-   Validations for inputs
+-   Updating projects page every 10 seconds
+-   Custom command for creating database (make sure to have working connection in .env file): php artisan mysql:createdb dbnamehere
+-   Database migrations ready to be migrated after creating database: php artisan migrate
+-   For front-end: Vue.js
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Future plans
 
-## Laravel Sponsors
+-   Implementing OAuth to secure API
+-   Making HttpOnly cookie token in front-end
+-   Project edit feature
+-   Group remove feature
+-   Forgot password feature
+-   Remember me feature
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Installation (Composer)(Windows)(XAMPP)(Node)
 
-### Premium Partners
+-   Download Nodejs from https://nodejs.org/en/ [Nodejs](https://nodejs.org/en/) "Recommended For Most Users"
 
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Cubet Techno Labs](https://cubettech.com)**
--   **[Cyber-Duck](https://cyber-duck.co.uk)**
--   **[Many](https://www.many.co.uk)**
--   **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
--   **[DevSquad](https://devsquad.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[OP.GG](https://op.gg)**
--   **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
--   **[Lendio](https://lendio.com)**
+-   Download XAMPP from https://www.apachefriends.org/index.html [XAMPP](https://www.apachefriends.org/index.html)
+-   Edit Environment Variables to use PHP commands:
+    Start by typing in Environment Variables in your Search and click on the Edit the system environment variables result.
+    In the System Properties window click Environment Variables. Make sure that you’re on the Advanced tab.
+    Scroll down to the Path variable and click Edit.
+    Click on the Browse button.
+    Navigate to C:/xampp/php and click OK.
+    You will now see the path to php inside the window. Click OK to exit.
+    Restart your Command Prompt window if it’s open and type in: php -v
+    You should see the PHP version being displayed.
 
-## Contributing
+-   Download Composer from (Windows installer) https://getcomposer.org/download/ [Composer](https://getcomposer.org/download/)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   Clone this GitHub repo cd into project and run: composer install
+-   After that run: npm install
+-   Now create .env file and copy everything from .env.example to .env file
+-   Generate app encryption key by typing: php artisan key:generate
+-   Make sure to have correct credentials in .env file for database
+-   Run custom command to create database: php artisan mysql:createdb projects_school
+-   Migrate database by typing: php artisan migrate
+-   Now you can run: php artisan serve
+-   Everything should be working :)
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   For Vue.js front-end: cd front-vue
+-   Now: npm install
+-   After that run: npm run serve

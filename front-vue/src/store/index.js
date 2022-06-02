@@ -51,12 +51,12 @@ const store = createStore({
             axiosClient.get("/projects").then((res) => {
                 commit("setProjects", res.data);
             });
-            setInterval(function () {
-                axiosClient.get("/projects").then((res) => {
-                    console.log("Information updated...");
-                    commit("setProjects", res.data);
-                });
-            }, 10000);
+            // setInterval(function () {
+            axiosClient.get("/projects").then((res) => {
+                console.log("Information updated...");
+                commit("setProjects", res.data);
+            });
+            // }, 10000);
         },
         saveProject({ commit }, project) {
             let response;

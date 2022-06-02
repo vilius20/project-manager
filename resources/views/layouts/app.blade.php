@@ -25,7 +25,8 @@
     {{-- Main content --}}
     <div class="flex justify-center">
         <div class="md:w-11/12 m-5 w-full bg-white p-6 rounded-lg">
-            @yield('projects')
+            @yield('main')
+            @yield('create')
         </div>
     </div>
     {{-- Main content end --}}

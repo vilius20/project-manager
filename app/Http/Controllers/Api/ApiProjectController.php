@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\CreateGroups;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -17,7 +19,7 @@ class ApiProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): array
     {
         $user_id = $request->user()->id;
 
@@ -34,7 +36,7 @@ class ApiProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Project
     {
         $this->validate($request, [
             'user_id' => 'exists:users,id',
@@ -53,14 +55,10 @@ class ApiProjectController extends Controller
         ]);
 
         $count = $request->groups;
+        $user_id = $user->id;
+        $project_id = $result->id;
 
-        for ($i=0; $i < $count; $i++) { 
-            Group::create([
-                'user_id' => $user->id,
-                'project_id' => $result->id,
-                'title' => 'Group #',
-            ]);
-        }
+        CreateGroups::dispatch((int)$count, (int)$user_id, (int)$project_id);
 
         return $result;
     }
@@ -72,7 +70,7 @@ class ApiProjectController extends Controller
      * @param  \App\Models\Project  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $request, Project $project)
+    public function show(int $id, Request $request, Project $project): Project
     {
         $user = $request->user();
 
@@ -90,7 +88,7 @@ class ApiProjectController extends Controller
      * @param  str  $title
      * @return \Illuminate\Http\Response
      */
-    public function search($title)
+    public function search(string $title): Project
     {
         return Project::where('title', 'like', '%'.$title.'%')->get();
     }
@@ -103,7 +101,7 @@ class ApiProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Request $request)
+    public function destroy(int $id, Request $request): int
     {
         $access_token = $request->header('Authorization');
         $auth_header = explode(' ', $access_token);
@@ -113,7 +111,7 @@ class ApiProjectController extends Controller
         $project= Project::where('id', $id)->first();
 
         if ($user->id !== (int)$project->user_id) {
-            return abort(403, message: 'Unauthorized action.');
+         abort(403, message: 'Unauthorized action.');
         }
         
         return Project::destroy($id);

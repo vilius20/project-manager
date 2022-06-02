@@ -11,4 +11,4 @@ Route::post('/remove-project/{id}', [ProjectController::class, 'destroy']);
 
 Route::post('/', [StudentController::class, 'store'])->name('newStudent');
 Route::post('/assign-student/{id}/{group}', [StudentController::class, 'update']);
-Route::post('/remove-student/{id}', [StudentController::class, 'destroy']);
+Route::post('/remove-student/{id}', [StudentController::class, 'destroy'])->name('student.destroy');

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('projects')
+@section('create')
 <div class="flex justify-center">
     <div class="md:w-6/12 w-full bg-white p-6 rounded-lg">
         <form action="{{ route('newProject') }}" method="post">

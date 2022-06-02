@@ -31,6 +31,9 @@
         <main>
             <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div class="grid">
+                    <div v-if="!projects.length">
+                        <p class="text-2xl m-2">There is no projects...</p>
+                    </div>
                     <div
                         v-for="project in projects"
                         :key="project.id"
@@ -72,7 +75,7 @@
                             class="text-lg font-bold mt-4 flex gap-2 items-center mb-3"
                         >
                             <h1>Students:</h1>
-                            <p class="text-red-500">{{ project.id }}</p>
+                            <p class="text-red-500">{{ project.students }}</p>
                         </div>
 
                         <h1 class="text-3xl mb-3">Students</h1>
@@ -95,7 +98,9 @@
                             <div v-for="student in students" :key="student.id">
                                 <div class="flex justify-around border-b-2 p-2">
                                     <div class="w-1/4 flex justify-center">
-                                        <p class="text-indigo-600 font-medium">
+                                        <p
+                                            class="text-indigo-600 font-medium text-center"
+                                        >
                                             {{ student.student }}
                                         </p>
                                     </div>
@@ -133,7 +138,7 @@
                                     id="groups"
                                     v-model="model.student"
                                     autocomplete="project_groups"
-                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-1/4 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                    class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block md:w-1/4 shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 />
                                 <button
                                     class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -167,8 +172,10 @@
                                 </svg>
                             </span>
                         </div>
-                        <h1 class="text-3xl">Groups</h1>
-                        <div class="grid grid-cols-3 gap-4">
+                        <h1 class="text-3xl mb-2">Groups</h1>
+                        <div
+                            class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-4"
+                        >
                             <div v-for="group in groups" :key="group.id">
                                 <div v-if="group.project_id == project.id">
                                     <div
@@ -250,7 +257,7 @@ import axiosClient from "../axios";
 
 const router = useRouter();
 
-let projects = computed(() => store.state.projects.data);
+const projects = computed(() => store.state.projects.data);
 const groups = computed(() => store.state.groups.data);
 const students = computed(() => store.state.students.data);
 const studentsNoGroup = computed(() => store.state.students.noGroup);

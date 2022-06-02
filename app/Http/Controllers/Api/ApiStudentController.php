@@ -18,7 +18,7 @@ class ApiStudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Student
     {
         $user_id = $request->user()->id;
 
@@ -41,7 +41,7 @@ class ApiStudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request): void
     {
 
        $arr = $request->all();
@@ -62,7 +62,7 @@ class ApiStudentController extends Controller
                 ]);
             } 
             else {
-                return abort(403, message: 'Group '.$group_id.' already full...(Or trying to add to much students...');  
+                abort(403, message: 'Group '.$group_id.' already full... Or trying to add to much students at once?');  
             }
 
         }
@@ -75,7 +75,7 @@ class ApiStudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, Request $request)
+    public function destroy(int $id, Request $request): int
     {
         $access_token = $request->header('Authorization');
         $auth_header = explode(' ', $access_token);
@@ -88,14 +88,6 @@ class ApiStudentController extends Controller
             return abort(403, message: 'Unauthorized action.');
         }
         
-        return Student::destroy($id);
-    }
-
-    public function remove_test($id)
-    {
-           
-        Student::destroy($id);
-
-        return response('', Response::HTTP_NO_CONTENT);
+        return Student::destroy((int)$id);
     }
 }
