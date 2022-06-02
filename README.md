@@ -2,46 +2,46 @@
 
 This school project manager (SPM) can:
 
--   Create project.
+-   Create projects.
+-   Create students.
 -   Auto-initalize groups (using event in API).
--   Creating students
--   Delete students
--   Delete projects
+-   Delete students.
+-   Delete projects.
 -   Add students to groups.
 -   Visit live only laravel-blade and public (link: https://www.dotask.eu) [demo](https://dotask.eu).
 -   Also API and front-end solution (link: https://www.plexas.lt) [demo](https://plexas.lt).
--   API login/registration
+-   API login/registration.
 -   Bonus requirements fulfilled.
 
 Using Node 16.13.1 and Laravel 9.14.0
 
 ## Features
 
--   For design used TailwindCSS
--   Responsive design
--   For design used TailwindCSS
--   Maximum 30 groups per project
--   Maximum 100 students per project
--   Validations for inputs
--   Updating projects page every 10 seconds (fron-vue/src/store/index.js uncomment line 54 and 59)
+-   TailwindCSS used for design.
+-   Responsive design.
+-   Maximum 30 groups per project.
+-   Maximum 100 students per project.
+-   Validations for inputs.
+-   Updating project's page every 10 seconds (fron-vue/src/store/index.js uncomment line 54 and 59).
 -   Custom command for creating database (make sure to have working connection in .env file): php artisan mysql:createdb dbnamehere
 -   Database migrations ready to be migrated after creating database: php artisan migrate
--   For front-end: Vue.js
+-   For front-end: Vue.js.
 
 ## Future plans
 
--   Implementing OAuth to secure API
--   Making HttpOnly cookie token in front-end
--   Project edit feature
--   Group remove feature
--   Forgot password feature
--   Remember me feature
+-   Implementing OAuth to secure API.
+-   Making HttpOnly cookie token in front-end.
+-   Project edit feature.
+-   Group remove feature.
+-   Forgot password feature.
+-   Remember me feature.
 
 ### Installation (Composer)(Windows)(XAMPP)(Node)
 
 -   Download Nodejs from https://nodejs.org/en/ [Nodejs](https://nodejs.org/en/) "Recommended For Most Users"
 
 -   Download XAMPP from https://www.apachefriends.org/index.html [XAMPP](https://www.apachefriends.org/index.html)
+
 -   Start XAMPP services
 -   Edit Environment Variables to use PHP commands:
     Start by typing in Environment Variables in your Search and click on the Edit the system environment variables result.
@@ -61,7 +61,7 @@ Using Node 16.13.1 and Laravel 9.14.0
 -   Now create .env file and copy everything from .env.example to .env file
 -   Generate app encryption key by typing: php artisan key:generate
 -   Make sure to have correct credentials in .env file for database
--   Run custom command to create database: php artisan mysql:createdb projects_school (If there is issues create database manualy)
+-   Run custom command to create database: php artisan mysql:createdb projects_school (If there are issues create database manually)
 -   Migrate database by typing: php artisan migrate
 -   Now you can run: php artisan serve
 -   Everything should be working :)
@@ -112,7 +112,7 @@ Using Node 16.13.1 and Laravel 9.14.0
 -   Now create .env file and copy everything from .env.example to .env file
 -   Generate app encryption key by typing: php artisan key:generate
 -   Make sure to have correct credentials in .env file for database
--   Run custom command to create database: php artisan mysql:createdb projects_school (If there is issues create database manualy)
+-   Run custom command to create database: php artisan mysql:createdb projects_school (If there are issues create database manually)
 -   Migrate database by typing: php artisan migrate
 -   Now you can run: php artisan serve
 -   Everything should be working :)
@@ -153,7 +153,7 @@ Using Node 16.13.1 and Laravel 9.14.0
 -   Now create .env file and copy everything from .env.example to .env file
 -   Generate app encryption key by typing: php artisan key:generate
 -   Make sure to have correct credentials in .env file for database
--   Run custom command to create database: php artisan mysql:createdb projects_school (If there is issues create database manualy)
+-   Run custom command to create database: php artisan mysql:createdb projects_school (If there are issues create database manually)
 -   Migrate database by typing: php artisan migrate
 -   Now you can run: php artisan serve
 -   Everything should be working :)
