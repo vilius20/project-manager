@@ -47,12 +47,9 @@ class ApiProjectController extends Controller
 
         $user = $request->user();
 
-       $result = Project::create([
-            'title' => $request->title,
-            'user_id' => $user->id,
-            'groups' => $request->groups,
-            'students' => $request->students
-        ]);
+        $project = Project::create($request->all);
+        $project->user_id = $user->id;
+        $project->save();
 
         $count = $request->groups;
         $user_id = $user->id;
@@ -60,7 +57,7 @@ class ApiProjectController extends Controller
 
         CreateGroups::dispatch((int)$count, (int)$user_id, (int)$project_id);
 
-        return $result;
+        return $project;
     }
 
     /**

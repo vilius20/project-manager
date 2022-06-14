@@ -146,6 +146,7 @@ function register(e) {
             });
         })
         .catch((err) => {
+            console.log(err);
             errorMsg.value = err.response.data.message;
         });
 }

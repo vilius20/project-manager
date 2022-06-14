@@ -67,7 +67,7 @@ const store = createStore({
             return response;
         },
         register({ commit }, user) {
-            return fetch(`https://dotask.eu/sanctum/csrf-cookie`, {
+            return fetch(`https://plexas.lt/sanctum/csrf-cookie`, {
                 mode: "no-cors",
                 headers: {
                     "Content-Type": "application/json",
@@ -76,6 +76,7 @@ const store = createStore({
                 method: "GET",
             }).then(() => {
                 return axiosClient.post("/register", user).then((res) => {
+                    console.log(res);
                     commit("setUser", res.data);
                     return res;
                 });
