@@ -53,7 +53,7 @@ class ApiProjectController extends Controller
 
         $count = $request->groups;
         $user_id = $user->id;
-        $project_id = $result->id;
+        $project_id = $project->id;
 
         CreateGroups::dispatch((int)$count, (int)$user_id, (int)$project_id);
 
